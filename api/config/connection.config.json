@@ -1,0 +1,6 @@
+{
+    "host": "localhost:3306",
+    "user": "starilad_icsm_admin",
+    "password": "thought@sliit2020",
+    "database": "twitter_share"
+}
