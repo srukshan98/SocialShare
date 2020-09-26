@@ -1,8 +1,11 @@
+import cors from 'cors';
 import { RouteService } from './service/config/route.service';
 import { MiddlewareService } from "./service/config/middleware.service";
 import express from "express";
 import { routes, defaultPaths } from './decorator/request.decorator';
 const app = express();
+
+app.use(cors());
 
 // Connecting Middleware
 let middlewareSerivice = new MiddlewareService(app);

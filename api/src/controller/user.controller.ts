@@ -101,11 +101,11 @@ export class UserController extends AbstractController {
                 LastName: ConvertToString(userObj.LastName),
                 DOB: ConvertToString(userObj.DOB),
                 Country: ConvertToString(userObj.Country),
-                State: ConvertToString(userObj.State),
-                Address: ConvertToString(userObj.Address),
-                MobilePhone: ConvertToString(userObj.MobilePhone),
+                State: ConvertToNullableString(userObj.State),
+                Address: ConvertToNullableString(userObj.Address),
+                MobilePhone: ConvertToNullableString(userObj.MobilePhone),
                 Profession: ConvertToNullableString(userObj.Profession),
-                Industry: ConvertToString(userObj.Industry),
+                Industry: ConvertToNullableString(userObj.Industry),
             };
 
             const lastId: number = (await service.Add(user))[0].insertId;

@@ -24,7 +24,7 @@ export function AuthProvider(target: object, methodName: string | symbol, reques
             return;
         }
 
-        if (isAuthorised(request.config.user.Locations, target.constructor.prototype.location, requestType)) {
+        if (target.constructor.prototype.location == null || isAuthorised(request.config.user.Locations, target.constructor.prototype.location, requestType)) {
             next();
         } else {
             response.status(403).send('Access UnAuthorised');

@@ -20,7 +20,7 @@ export const defaultPaths: string[] = [
  *
  * @param {string} path The Controller Route Path
  */
-export function Route(path: string, location: string) {
+export function Route(path: string, location?: string) {
     
     return function(constructor: Function) {
         constructor.prototype.location = location;

@@ -8,21 +8,23 @@ import { GetParameters } from '../functions/configurations';
 export function RequestProvider(target: object, methodName: string | symbol, method: Function, path: string): RequestHandler {
     return async (request: IRequest, response: Response) => {
 
-        const parms: any[] = GetParms(target, methodName, method, path, request, response);
+        const params: any[] = GetParams(target, methodName, method, path, request, response);
 
         const env = SetConfigurations(request);
 
-        const methodReponse: ResponseConfig = await method.apply(env, parms);
+        const methodResponse: ResponseConfig = await method.apply(env, params);
 
-        if (methodReponse.IsSuccessful) {
-            response.status(200).send(methodReponse);
-        } else {
-            response.status(methodReponse.Status).send(methodReponse);
+        if (methodResponse) {
+            if (methodResponse.IsSuccessful) {
+                response.status(200).send(methodResponse);
+            } else {
+                response.status(methodResponse.Status).send(methodResponse);
+            }
         }
     }
 }
 
-function GetParms(target: object, methodName: string | symbol, method: Function, path: string, request: Request, response: Response): any[] {
+function GetParams(target: object, methodName: string | symbol, method: Function, path: string, request: Request, response: Response): any[] {
     const methodParms: string[] = GetParameters(method);
     const urlQueryParms: string[] = path.match(/(?<=:)(\w)*/g);
     const decParms: ParmTypes[] = Reflect.getOwnMetadata(MetadataKeys.request, target, methodName) || [];

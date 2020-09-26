@@ -7,6 +7,9 @@ import jwt from 'jsonwebtoken';
 import cors from "cors";
 import secrets from '../../../config/secrets.config.json';
 import { UserController } from '../../controller/user.controller';
+import passport from 'passport';
+import { Strategy as TwitterStrategy } from 'passport-twitter';
+import session from 'express-session';
 
 export class MiddlewareService {
     constructor(private app: Express) { }
@@ -17,6 +20,7 @@ export class MiddlewareService {
         this.attachTokenValidator();
         this.attachUser();
         this.attachResponseSetup();
+        this.attachTwitterAuth();
     }
 
     attachBasics() {
@@ -25,19 +29,26 @@ export class MiddlewareService {
             extended: true
         }));
         this.app.use(logger('dev'));
+        this.app.use(session({
+            secret: 'My'
+        }))
     }
 
     attachDatabaseConnection(): void {
         const dbService: DatabaseService = new DatabaseService();
 
         this.app.use((req: IRequest, res, next) => {
-            const config = {
-                connection: dbService.getConnection()
-            };
-
-            req.config = config;
-
-            next();
+            try {
+                const config = {
+                    connection: dbService.getConnection()
+                };
+    
+                req.config = config;
+    
+                next();
+            } catch(e) {
+                res.status(500).send(e)
+            }
         })
     }
 
@@ -96,5 +107,22 @@ export class MiddlewareService {
         };
 
         this.app.use(cors(corsOpts));
+    }
+
+    attachTwitterAuth() {
+        this.app.use(passport.initialize());
+        passport.use(new TwitterStrategy({
+            consumerKey: '3Rdn3w51kDLSCzErYiFWzPdJj',
+            consumerSecret: 'YSWptoFUh9W5r5NO20P0xEfAvrBNCqbCKDg8tRC1kTawU61mX6',
+            callbackURL: "http://127.0.0.1:3000/twitter/callback"
+          },
+          (token, tokenSecret, profile, cb) => {
+          console.log(profile);
+            
+          }
+        ));
+        this.app.get('/auth/twitter',
+            passport.authenticate('twitter', { session: false }));
+
     }
 }
