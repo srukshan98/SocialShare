@@ -7,13 +7,11 @@ import { TwitterAuthModel } from '../../models/twitter-auth.model';
   providedIn: 'root'
 })
 export class ActiveUserConfigService {
-
   activeUser: UserModel;
   private twitterUser: TwitterAuthModel;
 
 
   constructor(
-    private router: ActivatedRoute
   ) { }
   set TwitterUser(params: TwitterAuthModel) {
     localStorage.setItem('twitter-user', JSON.stringify(params));
@@ -28,5 +26,10 @@ export class ActiveUserConfigService {
       return JSON.parse(objString);
     }
     return null;
+  }
+
+  logout() {
+    this.activeUser = null;
+    this.TwitterUser = null;
   }
 }

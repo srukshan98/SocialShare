@@ -11,6 +11,7 @@ import { NgModule } from '@angular/core';
 import { LoginComponent } from './shared/components/login/login.component';
 import { TwitterCallbackComponent } from './shared/components/auth-callbacks/twitter-callback/twitter-callback.component';
 import { HttpClientModule } from '@angular/common/http';
+import { MDBRootModule } from "angular-bootstrap-md";
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { HttpClientModule } from '@angular/common/http';
     NgbModule,
     ThemeModule,
     MaterialModule,
-    HttpClientModule
+    HttpClientModule,
+    MDBRootModule
   ],
   providers: [],
   bootstrap: [AppComponent]
