@@ -6,11 +6,11 @@
         <div class="mask"></div>
       </a>
     </div>
-    <mdb-card-body cascade="true" class="text-center card-body-cascade card-body">
+    <div cascade="true" class="text-center card-body-cascade card-body" [style.background-color]="getBgColor()">
       <h4 class="card-title font-bold mb-2"><strong>{{user.name}} ({{user.screenName}})</strong></h4>
       <h5 class="indigo-text"><strong>{{user.description}}</strong></h5>
       <h6 class="text-justify"><strong>About:</strong></h6>
       <p class="text-justify">{{user.name}} has joined Twitter on {{user.createdAt | date}} and is following {{user.friendsCount}} Users while {{user.followersCount}} are following {{user.name}}. Currently lives in {{user.location}}.</p>
-    </mdb-card-body>
+    </div>
   </div>
 </mdb-card>

@@ -46,7 +46,7 @@ export class TwitterController extends AbstractController {
                 request.headers['x-twitter-access-token-secret'] as string
             );
     
-            const res: ResponseConfig = await twitter.get('/statuses/user_timeline.json?screen_name=' + screenName);
+            const res: ResponseConfig = await twitter.get(`/statuses/user_timeline.json?screen_name=${screenName}&exclude_replies=true&include_rts=true&count=20`);
 
             return {
                 IsSuccessful: true,
