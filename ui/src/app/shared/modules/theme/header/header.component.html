@@ -1,10 +1,10 @@
 
 <mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark purple lighten-1" [containerInside]="false">
-  <mdb-navbar-brand><a class="navbar-brand" href="#">Social Share</a></mdb-navbar-brand>
+  <mdb-navbar-brand><a class="navbar-brand" [routerLink]="['']">Social Share</a></mdb-navbar-brand>
   <links>
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link waves-light" mdbWavesEffect>Home<span class="sr-only">(current)</span></a>
+        <a class="nav-link waves-light" [routerLink]="['']" mdbWavesEffect>Home<span class="sr-only">(current)</span></a>
       </li>
 
     </ul>

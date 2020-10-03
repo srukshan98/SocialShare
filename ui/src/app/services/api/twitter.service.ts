@@ -14,6 +14,13 @@ export class TwitterService {
   ) { }
 
   GetAccessToken(): Observable<ResponseModel<any>> {
-    return this.http.get(`${environment.apiURL}/twitter/access-token`);
+    return this.http.getNoAuth(`${environment.apiURL}/twitter/access-token`);
+  }
+
+  GetUser(userId: string): Observable<ResponseModel<any>> {
+    return this.http.get(`${environment.apiURL}/twitter/users?userId=${userId}`);
+  }
+  GetTweets(screenName: string): Observable<ResponseModel<any>> {
+    return this.http.getTwitter(`${environment.apiURL}/twitter/tweets?screenName=${screenName}`);
   }
 }

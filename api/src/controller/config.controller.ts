@@ -1,8 +1,8 @@
-import { RequestConfig } from "../config/request.config";
 import { ResponseConfig } from "../config/response.config";
 import { NoAuth } from "../decorator/auth.decorators";
-import { Body, RequestMapping, Route } from "../decorator/request.decorator";
+import { RequestMapping, Route } from "../decorator/request.decorator";
 import { AbstractController } from "./abstract.controller";
+import * as secrets from '../config/secrets';
 
 @Route('/configuration')
 export class ConfigController extends AbstractController {
@@ -12,8 +12,8 @@ export class ConfigController extends AbstractController {
         const body = {
             Twitter: {
                 RequestTokenURL: 'https://api.twitter.com/oauth/request_token',
-                Key: '3Rdn3w51kDLSCzErYiFWzPdJj',
-                KeySecret: 'YSWptoFUh9W5r5NO20P0xEfAvrBNCqbCKDg8tRC1kTawU61mX6'
+                Key: secrets.Twitter.consumerKey,
+                KeySecret: secrets.Twitter.consumerSecret
             }
         };
         

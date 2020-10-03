@@ -27,6 +27,7 @@ export class TwitterCallbackComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params: Params) => {
+      console.log('quick-log: TwitterCallbackComponent -> ngOnInit -> params', params);
       this.params = TwitterAuthModel.fromParam(params);
       if (this.params.OAuthToken) {
         this.activeUserService.TwitterUser = this.params;

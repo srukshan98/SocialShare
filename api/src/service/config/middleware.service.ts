@@ -10,6 +10,8 @@ import { UserController } from '../../controller/user.controller';
 import passport from 'passport';
 import { Strategy as TwitterStrategy } from 'passport-twitter';
 import session from 'express-session';
+import { writeFileSync } from 'fs';
+import { Twitter as TwitterSecret } from '../../config/secrets';
 
 export class MiddlewareService {
     constructor(private app: Express) { }
@@ -30,7 +32,7 @@ export class MiddlewareService {
         }));
         this.app.use(logger('dev'));
         this.app.use(session({
-            secret: 'My'
+            secret: 'My', resave: true, saveUninitialized: true
         }))
     }
 
@@ -56,6 +58,7 @@ export class MiddlewareService {
         this.app.use((req: IRequest, res, next) => {
             try{
                 let token: any = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
+
                 if (token && token.startsWith('Bearer ')) {
                     // Remove Bearer from string
                     token = token.slice(7, token.length);
@@ -110,19 +113,32 @@ export class MiddlewareService {
     }
 
     attachTwitterAuth() {
+        passport.serializeUser(function(user, cb) {
+            cb(null, user);
+          });
+          
+          passport.deserializeUser(function(obj, cb) {
+            cb(null, obj);
+          });
+
         this.app.use(passport.initialize());
+        this.app.use(passport.session());
+
         passport.use(new TwitterStrategy({
-            consumerKey: '3Rdn3w51kDLSCzErYiFWzPdJj',
-            consumerSecret: 'YSWptoFUh9W5r5NO20P0xEfAvrBNCqbCKDg8tRC1kTawU61mX6',
-            callbackURL: "http://127.0.0.1:3000/twitter/callback"
+            consumerKey: TwitterSecret.consumerKey,
+            consumerSecret: TwitterSecret.consumerSecret,
+            callbackURL: "http://127.0.0.1:3000/twitter/callback",
+
           },
           (token, tokenSecret, profile, cb) => {
-          console.log(profile);
-            
+            cb(null, profile);
           }
         ));
         this.app.get('/auth/twitter',
-            passport.authenticate('twitter', { session: false }));
+            passport.authenticate('twitter'), (req, res, next) => {
+                console.log(req.user);
+                next();
+            });
 
     }
 }

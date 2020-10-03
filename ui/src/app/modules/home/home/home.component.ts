@@ -1,3 +1,4 @@
+import { TwitterService } from './../../../services/api/twitter.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ActiveUserConfigService } from './../../../services/api/active-user-config.service';
 import { Component, OnInit } from '@angular/core';
@@ -18,7 +19,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private activeUserService: ActiveUserConfigService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
 
   ) { }
 
@@ -32,10 +33,11 @@ export class HomeComponent implements OnInit {
   }
   authenticate() {
     if (this.type === LoginType.Manual && this.activeUserService.activeUser) {
-       return;
+      return;
     }
     if (this.type === LoginType.Twitter && this.activeUserService.TwitterUser) {
-       return;
+      this.router.navigate(['twitter']);
+      return;
     }
     this.router.navigate(['/login']);
   }

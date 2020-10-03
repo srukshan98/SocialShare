@@ -1,3 +1,4 @@
+import { TwitterHomeComponent } from './twitter-home/twitter-home.component';
 import { HomeComponent } from './home/home.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -5,12 +6,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: ':type',
-    component: HomeComponent
+    path: 'twitter',
+    component: TwitterHomeComponent
   },
   {
     path: '',
-    component: HomeComponent
+    component: HomeComponent,
   }
 ];
 
