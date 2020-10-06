@@ -18,4 +18,8 @@ export class TwitterSideCardComponent implements OnInit {
     this.user = this.activeUserService.TwitterUser.user;
   }
 
+  getBgColor(): string {
+    console.log(this.user);
+    return '#' + this.user.profileSidebarFillColor;
+  }
 }

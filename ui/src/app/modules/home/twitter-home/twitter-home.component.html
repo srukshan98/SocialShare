@@ -11,4 +11,29 @@
   <div class="col-3">
     <app-twitter-side-card></app-twitter-side-card>
   </div>
+  <div class="col-9 home-content">
+    <div *ngFor="let tweet of tweets" class="pb-3">
+      <mdb-card cascade="true" narrower="true" class="narrower card card-cascade">
+        <div class="card card-cascade d-block p-3 text-white black clickable" (click)="gotoUser(tweet.user.screen_name)">
+          <img class="img-fluid" width="32px" class="rounded-circle d-inline" [src]="tweet.user.profile_image_url_https">
+          {{tweet.user.name}}
+        </div>
+        <div *ngIf="tweet.retweeted" class="card card-cascade d-block py-1 px-5 text-white black clickable text-smaller" (click)="gotoUser(tweet.retweeted_status.user.screen_name)">
+          <img class="img-fluid" width="26px" class="rounded-circle d-inline" [src]="tweet.retweeted_status.user.profile_image_url_https">
+          {{tweet.retweeted_status.user.name}}
+        </div>
+        <mdb-card-body cascade="true" class="light-black text-center card-body-cascade card-body">
+          <div class="clickable" (click)="gotoTweet(tweet)">
+            <p class="text-white pb-2">
+              {{tweet.text}}
+            </p>
+            <div class="d-inline">
+              <img *ngFor="let media of tweet.entities?.media" class="img-fluid" width="60%" class="d-inline" [src]="media.media_url_https">
+            </div>
+          </div>
+          <div [innerHTML]="tweet.source" class="pt-2"></div>
+        </mdb-card-body>
+      </mdb-card>
+    </div>
+  </div>
 </div>
