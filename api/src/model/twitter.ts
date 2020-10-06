@@ -68,7 +68,7 @@ export class Twitter {
     authenticate(): Promise<AuthRes> {
         return new Promise((resolve, reject: (reason?: any) => void) => {
             this.auth.getOAuthRequestToken({
-                'oauth_callback': 'http://127.0.0.1:3000/twitter/callback'
+                'oauth_callback': 'https://127.0.0.1:3000/twitter/callback'
             }, (err: { statusCode: number; data?: any; }, token: string, tokenSecret: string, parsedQueryString: any) => {
                 if (err) {
                     reject(err);
