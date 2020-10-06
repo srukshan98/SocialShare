@@ -1,6 +1,8 @@
 # Social Share
 
-This project was created by [srukshan98](https://github.com/srukshan98) and [Sasi02](https://github.com/Sasi02)
+This project was created by [srukshan98](https://github.com/srukshan98) and [Sasi02](https://github.com/Sasi02).
+
+Please Refer the ReadMe.txt file for Secrets
 
 ## Development server
 
