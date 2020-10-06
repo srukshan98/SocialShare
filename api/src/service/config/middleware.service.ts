@@ -8,11 +8,10 @@ import cors from "cors";
 import secrets from '../../../config/secrets.config.json';
 import { UserController } from '../../controller/user.controller';
 import passport from 'passport';
-import { Strategy as TwitterStrategy } from 'passport-twitter';
 import { Strategy as FacebookStrategy } from 'passport-facebook';
 import session from 'express-session';
 import { writeFileSync } from 'fs';
-import { Facebook, Twitter as TwitterSecret } from '../../config/secrets';
+import { Facebook } from '../../config/secrets';
 
 export class MiddlewareService {
     constructor(private app: Express) { }
@@ -125,17 +124,6 @@ export class MiddlewareService {
         this.app.use(passport.initialize());
         this.app.use(passport.session());
 
-        passport.use(new TwitterStrategy({
-            consumerKey: TwitterSecret.consumerKey,
-            consumerSecret: TwitterSecret.consumerSecret,
-            callbackURL: "http://127.0.0.1:3000/twitter/callback",
-
-        },
-            (token, tokenSecret, profile, cb) => {
-                cb(null, profile);
-            }
-        ));
-
         passport.use(new FacebookStrategy({
             clientID: Facebook.clientId,
             clientSecret: Facebook.clientSecret,
@@ -146,15 +134,9 @@ export class MiddlewareService {
                 cb(null, profile);
             }
         ));
-        
-        this.app.get('/auth/twitter',
-            passport.authenticate('twitter'), (req, res, next) => {
-                console.log(req.user);
-                next();
-            });
 
         this.app.get('/auth/facebook',
-            passport.authenticate('facebook'), (req, res, next) => {
+            passport.authenticate('facebook', { scope: 'user_posts, user_birthday, user_gender, user_photos, user_videos' }), (req, res, next) => {
                 console.log(req.user);
                 next();
             });

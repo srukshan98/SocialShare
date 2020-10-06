@@ -1,4 +1,3 @@
-import { TwitterService } from './../../../services/api/twitter.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ActiveUserConfigService } from './../../../services/api/active-user-config.service';
 import { Component, OnInit } from '@angular/core';
@@ -6,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
 enum LoginType {
   Manual,
   Twitter,
-
+  Facebook
 }
 
 @Component({
@@ -28,6 +27,9 @@ export class HomeComponent implements OnInit {
       if (params.type === 'twitter') {
         this.type = LoginType.Twitter;
       }
+      if (params.type === 'facebook') {
+        this.type = LoginType.Facebook;
+      }
       this.authenticate();
     });
   }
@@ -37,6 +39,10 @@ export class HomeComponent implements OnInit {
     }
     if (this.type === LoginType.Twitter && this.activeUserService.TwitterUser) {
       this.router.navigate(['twitter']);
+      return;
+    }
+    if (this.type === LoginType.Facebook && this.activeUserService.FacebookUser) {
+      this.router.navigate(['facebook']);
       return;
     }
     this.router.navigate(['/login']);

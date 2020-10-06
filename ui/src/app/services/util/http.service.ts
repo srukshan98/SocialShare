@@ -45,6 +45,10 @@ export class HttpService {
     return this.http.get(url, this.createTwitterHeader());
   }
 
+  getFacebook(url: string): Observable<any> {
+    return this.http.get(url, this.createFacebookHeader());
+  }
+
   getNoAuth(url: string): Observable<any> {
     return this.http.get(url);
   }
@@ -75,6 +79,18 @@ export class HttpService {
     let r1 = {
       'x-twitter-access-token': this.activeUser.TwitterUser.OAuthToken,
       'x-twitter-access-token-secret': this.activeUser.TwitterUser.OAuthTokenSecret,
+    };
+    let x = { ...r1 };
+
+    return {
+      headers: new HttpHeaders(x)
+    };
+  }
+
+  private createFacebookHeader(): any {
+    let r1 = {
+      'x-facebook-access-token': this.activeUser.FacebookUser.AccessToken,
+      'x-facebook-access-user-id': this.activeUser.FacebookUser.UserId,
     };
     let x = { ...r1 };
 

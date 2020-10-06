@@ -1,3 +1,4 @@
+import { FacebookHomeComponent } from './facebook-home/facebook-home.component';
 import { TwitterHomeComponent } from './twitter-home/twitter-home.component';
 import { HomeComponent } from './home/home.component';
 import { NgModule } from '@angular/core';
@@ -8,6 +9,10 @@ const routes: Routes = [
   {
     path: 'twitter',
     component: TwitterHomeComponent
+  },
+  {
+    path: 'facebook',
+    component: FacebookHomeComponent
   },
   {
     path: '',

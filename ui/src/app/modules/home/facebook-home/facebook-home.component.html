@@ -1,0 +1,27 @@
+<div class="d-flex justify-content-center my-2">
+  <img
+    src="https://st2.depositphotos.com/1144386/7770/v/450/depositphotos_77705004-stock-illustration-original-square-with-round-corners.jpg"
+    width="50" height="50" />
+</div>
+<div class="row my-4">
+  <div class="col-12 home-content">
+    <div *ngFor="let post of posts" class="pb-3">
+      <mdb-card cascade="true" narrower="true" class="narrower card card-cascade">
+        <mdb-card-body cascade="true" class="light-black text-center card-body-cascade card-body">
+          <div class="clickable" (click)="gotoPost(post)">
+            <p class="text-white pb-2">
+              {{post.message}}
+            </p>
+            <div class="d-inline">
+              <img *ngFor="let media of post.attachments?.data" class="img-fluid" width="60%" class="d-inline"
+                [src]="media.media.image.src">
+            </div>
+          </div>
+          <div class="pt-2">
+            <a [href]="post.link">Go to Post</a>
+          </div>
+        </mdb-card-body>
+      </mdb-card>
+    </div>
+  </div>
+</div>
