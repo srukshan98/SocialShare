@@ -12,13 +12,15 @@ import { LoginComponent } from './shared/components/login/login.component';
 import { TwitterCallbackComponent } from './shared/components/auth-callbacks/twitter-callback/twitter-callback.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MDBRootModule } from "angular-bootstrap-md";
+import { FacebookCallbackComponent } from './shared/components/auth-callbacks/facebook-callback/facebook-callback.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BaseComponent,
     LoginComponent,
-    TwitterCallbackComponent
+    TwitterCallbackComponent,
+    FacebookCallbackComponent
   ],
   imports: [
     BrowserModule,

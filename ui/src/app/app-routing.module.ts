@@ -1,3 +1,4 @@
+import { FacebookCallbackComponent } from './shared/components/auth-callbacks/facebook-callback/facebook-callback.component';
 import { TwitterCallbackComponent } from './shared/components/auth-callbacks/twitter-callback/twitter-callback.component';
 import { LoginComponent } from './shared/components/login/login.component';
 import { BaseComponent } from './shared/components/base/base.component';
@@ -12,6 +13,10 @@ const routes: Routes = [
       {
         path: 'twitter',
         component: TwitterCallbackComponent
+      },
+      {
+        path: 'facebook',
+        component: FacebookCallbackComponent
       }
     ]
   },

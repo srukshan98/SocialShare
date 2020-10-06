@@ -9,9 +9,10 @@ import secrets from '../../../config/secrets.config.json';
 import { UserController } from '../../controller/user.controller';
 import passport from 'passport';
 import { Strategy as TwitterStrategy } from 'passport-twitter';
+import { Strategy as FacebookStrategy } from 'passport-facebook';
 import session from 'express-session';
 import { writeFileSync } from 'fs';
-import { Twitter as TwitterSecret } from '../../config/secrets';
+import { Facebook, Twitter as TwitterSecret } from '../../config/secrets';
 
 export class MiddlewareService {
     constructor(private app: Express) { }
@@ -22,7 +23,7 @@ export class MiddlewareService {
         this.attachTokenValidator();
         this.attachUser();
         this.attachResponseSetup();
-        this.attachTwitterAuth();
+        this.attachPassportAuth();
     }
 
     attachBasics() {
@@ -112,14 +113,14 @@ export class MiddlewareService {
         this.app.use(cors(corsOpts));
     }
 
-    attachTwitterAuth() {
-        passport.serializeUser(function(user, cb) {
+    attachPassportAuth() {
+        passport.serializeUser(function (user, cb) {
             cb(null, user);
-          });
-          
-          passport.deserializeUser(function(obj, cb) {
+        });
+
+        passport.deserializeUser(function (obj, cb) {
             cb(null, obj);
-          });
+        });
 
         this.app.use(passport.initialize());
         this.app.use(passport.session());
@@ -129,13 +130,31 @@ export class MiddlewareService {
             consumerSecret: TwitterSecret.consumerSecret,
             callbackURL: "http://127.0.0.1:3000/twitter/callback",
 
-          },
-          (token, tokenSecret, profile, cb) => {
-            cb(null, profile);
-          }
+        },
+            (token, tokenSecret, profile, cb) => {
+                cb(null, profile);
+            }
         ));
+
+        passport.use(new FacebookStrategy({
+            clientID: Facebook.clientId,
+            clientSecret: Facebook.clientSecret,
+            callbackURL: "https://127.0.0.1:3000/facebook/callback",
+
+        },
+            (token, refreshToken, profile, cb) => {
+                cb(null, profile);
+            }
+        ));
+        
         this.app.get('/auth/twitter',
             passport.authenticate('twitter'), (req, res, next) => {
+                console.log(req.user);
+                next();
+            });
+
+        this.app.get('/auth/facebook',
+            passport.authenticate('facebook'), (req, res, next) => {
                 console.log(req.user);
                 next();
             });

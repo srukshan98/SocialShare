@@ -48,6 +48,6 @@ export class TwitterCallbackComponent implements OnInit {
   }
 
   getAccessToken() {
-    window.location.href = 'http://127.0.0.1:3000/twitter/auth';
+    window.location.href = 'https://127.0.0.1:3000/twitter/auth';
   }
 }
