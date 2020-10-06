@@ -8,9 +8,33 @@ import { AbstractController } from "./abstract.controller";
 import axios, { AxiosResponse } from 'axios';
 import { TwitterAccessTokenResponse } from '../model/response/twitter/twitter-access-token.response';
 import { TwitterUser } from '../model/twitter-user.model';
+import path from 'path';
 
 @Route('/twitter')
 export class TwitterController extends AbstractController {
+    @NoAuth()
+    @RequestMapping(RequestType.GET, '/auth')
+    public async Authenticate(@QResponse response: Response): Promise<void> {
+        try {
+            let twitter = new Twitter();
+
+            const res = await twitter.authenticate();
+
+            response.redirect(`https://api.twitter.com/oauth/authenticate?oauth_token=${res.token}`);
+
+        } catch (error) {
+            response.sendFile('err_500.html', { root: path.join(__dirname, '../public') }, (err) => {
+                if (err) {
+                    return {
+                        IsSuccessful: false,
+                        Status: 500,
+                        Body: err
+                    };
+                }
+            });
+        }
+    }
+
     @NoAuth()
     @RequestMapping(RequestType.GET, '/callback')
     public async GetAccessToken(oauth_token: string, oauth_verifier: string, @QResponse response: Response): Promise<ResponseConfig | void> {
@@ -29,11 +53,15 @@ export class TwitterController extends AbstractController {
             response.redirect(`http://127.0.0.1:4200/auth-callback/twitter?${paramStr}`);
             
         } catch (error) {
-            return {
-                IsSuccessful: false,
-                Status: 500,
-                Body: error
-            };
+            response.sendFile('err_500.html', { root: path.join(__dirname, '../public') }, (err) => {
+                if (err) {
+                    response.status(500).send({
+                        IsSuccessful: false,
+                        Status: 500,
+                        Body: err
+                    });
+                }
+            });
         }
     }
 
